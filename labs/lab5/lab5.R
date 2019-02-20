@@ -61,25 +61,30 @@ dt(-3, df = 5)
 #### Using R to calculate CIs
 
 ## Load the data: a subset of 2004 American National Election Study
-load("anes.Rdata")
+load("lab5/anes.Rdata")
 View(anes)
 
-
+setwd("~/Documents/GitHub/QPMspring2019/labs/")
+## had to find data 
 
 ## Let's say our confidence coefficient = .95
 ## Calculate the appropriate confidence interval for the
 ## mean level of support for how George W. Bush was
 ## handling the war in Iraq (bushIraq)
-z95 <- qnorm((1 - .95)/2, lower.tail = FALSE)## (1-confidence coefficient)/2
+z95 <- qnorm((1 - .95)/2, lower.tail = FALSE) ## (1-confidence coefficient)/2
+z95
 n <- length(na.omit(anes$bushiraq))
+n
 sample_mean <- mean(anes$bushiraq, na.rm = TRUE)
-sample_sd <- sd(anes$bushiraq, na.rm = TRUE)
+sample_sd <- sd(anes$bushiraq, na.rm = TRUE) 
+
+#function for standard deviation-sd
 lower_95 <- sample_mean - (z95 * (sample_sd/sqrt(n)))
 upper_95 <- sample_mean + (z95 * (sample_sd/sqrt(n)))
-confint95 <- c(lower_95, upper_95) ## What does this mean?
+confint95 <- c(lower_95, upper_95) ## What does this mean? #c--putting things together, seperated by commas
 
 
-## Now let's use a confidence coefficient = .99
+## Now let's use a confidence coefficient = .99 # all you have to do is change Z score
 z99 <- qnorm((1 - .99)/2, lower.tail = FALSE)
 lower_99 <- sample_mean - (z99 * (sample_sd/sqrt(n)))
 upper_99 <- sample_mean + (z99 * (sample_sd/sqrt(n)))
@@ -113,6 +118,9 @@ data(africa)
 ## 3. Create two subsets of the data
 ## One with only countries were no military coups have occurred
 ## One where any military coups have occurred
+colnames(africa)
+noCoups <- africa[africa$miltcoup==0,] # is equal
+anyCoups <- africa[africa$miltcoup!=0,] #is not equal
 
 
 
@@ -120,11 +128,16 @@ data(africa)
 
 
 ## 4. Find a 95% confidence interval for the mean percent of voting in the last
-## elections for each subset of countries
+## elections for each subset of countries #construct a confidence interval for these countries
 
+zScore <- qnorm((1-.95)/2, lower.tail = F)
+zScore
 
+mean(noCoups$pctvote, na.rm = T) + zScore * (sd(noCoups$pctvote, na.rm = T)/sqrt(length(noCoups$pctvote)))
 
+mean(noCoups$pctvote, na.rm = T) - zScore * (sd(noCoups$pctvote, na.rm = T)/sqrt(length(noCoups$pctvote)))
 
+sd(noCoups$pctvote)
 
 
 
